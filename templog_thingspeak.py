@@ -31,19 +31,32 @@ def read_temp():
         temp_c = float(temp_string) / 1000.0
         return temp_c
 
+def thingspeak():
+    temperature = read_temp()
+    params = urllib.urlencode({'field1': temperature, 'key':'4LZO6KZXCU9T2E3M'})
+    headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+    conn = httplib.HTTPConnection("api.thingspeak.com:80")
+    conn.request("POST", "/update",params, headers)
+    response = conn.getresponse()
+    print response.status, response.reason
+    data = response.read()
+    conn.close()
+    #time.sleep(16)
+    
 while True:
-        getpid()
-        dataAsInt = str(read_temp())
-        dataAsString = str(dataAsInt)
-        print dataAsString
+    getpid()
+    dataAsInt = str(read_temp())
+    dataAsString = str(dataAsInt)
+    print dataAsString
+    time.sleep(16)
 
-temperature = read_temp()
-params = urllib.urlencode({'field1': temperature, 'key':'4LZO6KZXCU9T2E3M'})
-headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-conn = httplib.HTTPConnection("api.thingspeak.com:80")
-conn.request("POST", "/update",params, headers)
-response = conn.getresponse()
-print response.status, response.reason
-data = response.read()
-conn.close()
-time.sleep(16)
+#temperature = read_temp()
+#params = urllib.urlencode({'field1': temperature, 'key':'4LZO6KZXCU9T2E3M'})
+#headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+#conn = httplib.HTTPConnection("api.thingspeak.com:80")
+#conn.request("POST", "/update",params, headers)
+#response = conn.getresponse()
+#print response.status, response.reason
+#data = response.read()
+#conn.close()
+#time.sleep(16)
