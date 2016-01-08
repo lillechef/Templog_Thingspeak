@@ -6,13 +6,15 @@ base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
-def getpid():
+#Finding the pid number, and write it to a file.
+#Start at boot file in /etc/initd/StartAtBootFile to start and stop script 
+'''def getpid():
     dataAsString = str(os.getpid())
 
     fb = open("/home/pi/pidfile.pid","w")
     fb.write(dataAsString)
     fb.close()
-
+'''
 def read_temp_raw():
     f = open(device_file, 'r')
     lines = f.readlines()
@@ -31,6 +33,7 @@ def read_temp():
         temp_c = float(temp_string) / 1000.0
         return temp_c
 
+#thinspeak upload part
 def thingspeak():
     temperature = read_temp()
     params = urllib.urlencode({'field1': temperature, 'key':'4LZO6KZXCU9T2E3M'})
