@@ -1,0 +1,31 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:		Templog
+# Required-Start:	$remote_fs $syslog
+# Required-Stop:	$remote_fs $syslog
+# Default-Start:	2 3 4 5
+# Default-Stop:		0 1 6
+# Short-Description:	Startscript for templog
+# Description:		same as above
+### END INIT INFO
+
+case "$1" in
+	start)
+         echo "Starting templog.py"
+ 	 sleep 45
+ 	 sudo python /home/pi/templog.py &
+;;
+	stop)
+	 echo "Stopping templog.py"
+ 	 sudo kill -SIGTERM $( cat /home/pi/pidfile.pid )
+;;
+	*)
+ 	 echo "Wrong command. Use: sudo /etc/init.d/templog start|stop"
+exit 1
+;;
+
+esac
+
+exit 0
+
